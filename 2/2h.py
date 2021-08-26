@@ -1,3 +1,18 @@
+# Необходимо собрать информацию о вакансиях на вводимую должность (используем
+# input или через аргументы получаем должность) с сайтов HH(обязательно) и/или Superjob(по желанию).
+# Приложение должно анализировать несколько страниц сайта (также вводим через input или аргументы).
+# Получившийся список должен содержать в себе минимум:
+
+# Наименование вакансии.
+# Предлагаемую зарплату (разносим в три поля: минимальная и максимальная и валюта. цифры
+# преобразуем к цифрам).
+# Ссылку на саму вакансию.
+# Сайт, откуда собрана вакансия.
+
+# По желанию можно добавить ещё параметры вакансии (например, работодателя и расположение).
+# Структура должна быть одинаковая для вакансий с обоих сайтов. Общий результат можно
+# вывести с помощью dataFrame через pandas. Сохраните в json либо csv.
+
 import json
 import requests
 from bs4 import BeautifulSoup as bs
@@ -27,6 +42,8 @@ for x in range(max_page):
          name = info.text
          link = info['href']
 
+         employer = vacancy.find('a', {'data-qa': 'vacancy-serp__vacancy-employer'}).text
+
          try:
              salary = vacancy.find('span', {'data-qa': 'vacancy-serp__vacancy-compensation'}).text.replace('\u202f', '')
          except:
@@ -38,7 +55,7 @@ for x in range(max_page):
          vacancy_data['name'] = name
          vacancy_data['link'] = link
          vacancy_data['salary'] = salary
-         vacancy_data['url'] = url
+         vacancy_data['employer'] = employer
          vacancy_list.append(vacancy_data)
 
 pprint(vacancy_list)
