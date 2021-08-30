@@ -12,7 +12,7 @@
 from pprint import pprint
 from pymongo import MongoClient
 import kurs
-salary = int(input('Ввод зарплату:'))
+salary = int(input('Ввод зарплату (RUB):'))
 usd_rub = kurs.currency.check_currency()
 client = MongoClient('127.0.0.1', 27017)
 db = client['vacancies1']
